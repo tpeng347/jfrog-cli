@@ -86,7 +86,7 @@ def buildRpmAndDeb(version, architectures) {
             stage("Build debian ${currentBuild.pkg}") {
                 build(currentBuild.goos, currentBuild.goarch, currentBuild.pkg, 'jfrog')
                 dir("$jfrogCliRepoDir") {
-                    sh "build/deb_rpm/build-scripts/pack.sh -b jfrog -v $version -f deb --deb-arch $currentBuild.debianArch --deb-build-image $currentBuild.debianImage"
+                    sh "build/deb_rpm/build-scripts/pack.sh -b jfrog -v $version -f deb --deb-arch $currentBuild.debianArch --deb-build-image $currentBuild.debianImage -t --deb-test-image $currentBuild.debianImage"
                     built = true
                 }
             }
@@ -95,7 +95,7 @@ def buildRpmAndDeb(version, architectures) {
             stage("Build rpm ${currentBuild.pkg}") {
                 build(currentBuild.goos, currentBuild.goarch, currentBuild.pkg, 'jfrog')
                 dir("$jfrogCliRepoDir") {
-                    sh "build/deb_rpm/build-scripts/pack.sh -b jfrog -v $version -f rpm --rpm-build-image $currentBuild.rpmImage"
+                    sh "build/deb_rpm/build-scripts/pack.sh -b jfrog -v $version -f rpm --rpm-build-image $currentBuild.rpmImage -t --rpm-test-image $currentBuild.rpmImage"
                     built = true
                 }
             }
